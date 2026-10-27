@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="Sign in to FraudLens to monitor transactions and investigate payment fraud.">
+    <title>Sign in | FraudLens</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/runtime-config.js"></script>
+    <script src="/api.js" defer></script>
+    <script src="/login.js" defer></script>
+  </head>
+  <body class="login-page">
+    <header class="topbar login-topbar">
+      <a class="brand" href="/login.html" aria-label="FraudLens">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 3 27 7v8c0 7.3-4.7 12.1-11 14-6.3-1.9-11-6.7-11-14V7l11-4Z" fill="currentColor" opacity=".14"/>
+            <path d="M16 5.2 25 8.5v6.3c0 6-3.6 10-9 12-5.4-2-9-6-9-12V8.5l9-3.3Z" stroke="currentColor" stroke-width="2"/>
+            <path d="m11.5 15.8 3 3 6-6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-name">FraudLens</span>
+          <span class="brand-tagline">Credit Card Fraud Detection</span>
+        </span>
+      </a>
+    </header>
+    <main class="login-layout">
+      <section class="login-intro">
+        <p class="eyebrow">SECURE TRANSACTION MONITORING</p>
+        <h1>See risk clearly.<br>Act with confidence.</h1>
+        <p>Sign in to review transaction activity and assess fraud risk in real time.</p>
+        <div class="login-security"><span class="status-dot"></span> Protected access for your team</div>
+      </section>
+      <section class="panel login-card">
+        <div class="login-card-heading">
+          <span class="heading-icon" aria-hidden="true">↗</span>
+          <p class="eyebrow">WELCOME TO FRAUDLENS</p>
+          <h2 id="login-title">Sign in</h2>
+          <p id="login-subtitle">Enter your account details to continue.</p>
+        </div>
+        <form id="login-form" novalidate>
+          <label class="field" id="name-field" hidden>
+            <span>Name <b>*</b></span>
+            <input name="name" autocomplete="name" placeholder="Your name">
+          </label>
+          <label class="field">
+            <span>Email address <b>*</b></span>
+            <input name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          </label>
+          <label class="field">
+            <span>Password <b>*</b></span>
+            <input name="password" type="password" autocomplete="current-password" minlength="6" placeholder="At least 6 characters" required>
+          </label>
+          <p class="login-error" id="login-error" role="alert" hidden></p>
+          <button class="submit-button" id="login-submit" type="submit"><span>Sign in</span><span aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch"><span id="switch-copy">New to FraudLens?</span> <button type="button" id="mode-switch">Create an account</button></p>
+        <p class="first-admin-note" id="first-admin-note">The first account registered becomes the administrator.</p>
+      </section>
+    </main>
+    <footer class="footer">FraudLens <span>·</span> Secure transaction monitoring</footer>
+  </body>
+</html>

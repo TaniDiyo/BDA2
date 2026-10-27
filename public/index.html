@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="Monitor transactions, investigate fraud alerts, and assess card payment risk with FraudLens.">
+    <title>FraudLens | Credit Card Fraud Detection</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/runtime-config.js"></script>
+    <script src="/api.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="FraudLens home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 3 27 7v8c0 7.3-4.7 12.1-11 14-6.3-1.9-11-6.7-11-14V7l11-4Z" fill="currentColor" opacity=".14"/>
+            <path d="M16 5.2 25 8.5v6.3c0 6-3.6 10-9 12-5.4-2-9-6-9-12V8.5l9-3.3Z" stroke="currentColor" stroke-width="2"/>
+            <path d="m11.5 15.8 3 3 6-6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-name">FraudLens</span>
+          <span class="brand-tagline">Credit Card Fraud Detection</span>
+        </span>
+      </a>
+      <div class="navbar-user">
+        <nav class="main-nav" aria-label="Main navigation">
+          <a class="active" href="/">Dashboard</a>
+          <a href="/alerts.html">Alerts</a>
+          <a href="/rules.html">Rules</a>
+          <a href="/customers.html">Customers</a>
+          <a href="/evaluation">Evaluation</a>
+        </nav>
+        <span class="system-status"><span class="status-dot"></span> Monitoring active</span>
+        <span class="user-identity"><strong id="user-name">Loading…</strong><span id="user-role"></span></span>
+        <button class="logout-button" id="logout-button" type="button">Log out</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="page-intro">
+        <div>
+          <p class="eyebrow">OVERVIEW</p>
+          <h1>FraudLens</h1>
+          <p class="intro-copy">Monitor transaction activity and assess risk in real time.</p>
+        </div>
+        <div class="updated-label"><span class="live-pulse"></span> Live dashboard</div>
+      </section>
+
+      <section class="stats-grid" aria-label="Transaction summary">
+        <article class="stat-card stat-total">
+          <div class="stat-top"><span class="stat-icon">▤</span><span class="stat-label">Total transactions</span></div>
+          <p class="stat-value" id="stat-total">—</p>
+          <span class="stat-note">All transactions</span>
+        </article>
+        <article class="stat-card stat-approved">
+          <div class="stat-top"><span class="stat-icon">✓</span><span class="stat-label">Approved</span></div>
+          <p class="stat-value" id="stat-approved">—</p>
+          <span class="stat-note">Low risk</span>
+        </article>
+        <article class="stat-card stat-review">
+          <div class="stat-top"><span class="stat-icon">◷</span><span class="stat-label">Review</span></div>
+          <p class="stat-value" id="stat-review">—</p>
+          <span class="stat-note">Needs attention</span>
+        </article>
+        <article class="stat-card stat-blocked">
+          <div class="stat-top"><span class="stat-icon">⊘</span><span class="stat-label">Blocked</span></div>
+          <p class="stat-value" id="stat-blocked">—</p>
+          <span class="stat-note">High risk</span>
+        </article>
+        <article class="stat-card stat-review">
+          <div class="stat-top"><span class="stat-icon">!</span><span class="stat-label">Open alerts</span></div>
+          <p class="stat-value" id="stat-open-alerts">—</p>
+          <span class="stat-note">Open or investigating</span>
+        </article>
+        <article class="stat-card stat-total">
+          <div class="stat-top"><span class="stat-icon">%</span><span class="stat-label">Fraud rate</span></div>
+          <p class="stat-value" id="stat-fraud-rate">—</p>
+          <span class="stat-note">Blocked transactions</span>
+        </article>
+        <article class="stat-card stat-blocked">
+          <div class="stat-top"><span class="stat-icon">₹</span><span class="stat-label">Amount blocked</span></div>
+          <p class="stat-value compact-stat" id="stat-amount-blocked">—</p>
+          <span class="stat-note">Total blocked amount</span>
+        </article>
+      </section>
+
+      <section class="action-grid">
+        <article class="panel chart-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">TRANSACTION BREAKDOWN</p>
+              <h2>Risk Overview</h2>
+            </div>
+            <span class="heading-icon" aria-hidden="true">◉</span>
+          </div>
+          <div class="chart-wrap" id="chart-wrap">
+            <canvas id="risk-chart" aria-label="Approved, review, and blocked transaction breakdown"></canvas>
+            <div class="chart-center" aria-hidden="true">
+              <strong id="chart-total">0</strong>
+              <span>transactions</span>
+            </div>
+          </div>
+          <p class="chart-empty" id="chart-empty" hidden>No transactions yet</p>
+          <div class="chart-legend">
+            <span><i class="legend-dot approved-dot"></i> Approved</span>
+            <span><i class="legend-dot review-dot"></i> Review</span>
+            <span><i class="legend-dot blocked-dot"></i> Blocked</span>
+          </div>
+        </article>
+
+        <article class="panel form-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">RISK ASSESSMENT</p>
+              <h2>Submit a Transaction</h2>
+            </div>
+            <span class="heading-icon" aria-hidden="true">＋</span>
+          </div>
+          <form id="transaction-form">
+            <div class="form-grid">
+              <label class="field field-wide">
+                <span>Card last 4 digits <b>*</b></span>
+                <input name="cardLast4" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 1234" required>
+              </label>
+              <label class="field">
+                <span>Customer ID <b>*</b></span>
+                <input name="customerId" placeholder="e.g. CUST-1001" required>
+              </label>
+              <label class="field">
+                <span>Amount (₹) <b>*</b></span>
+                <input name="amount" type="number" min="0" step="0.01" placeholder="e.g. 2500" required>
+              </label>
+              <label class="field">
+                <span>Merchant <b>*</b></span>
+                <input name="merchant" placeholder="e.g. Acme Store" required>
+              </label>
+              <label class="field">
+                <span>Category <b>*</b></span>
+                <input name="category" placeholder="e.g. Retail" required>
+              </label>
+              <label class="field">
+                <span>Country <b>*</b></span>
+                <input name="country" maxlength="2" placeholder="IN" value="IN" required>
+              </label>
+              <label class="field">
+                <span>Home country</span>
+                <input name="homeCountry" maxlength="2" placeholder="IN" value="IN">
+              </label>
+              <label class="field field-wide">
+                <span>Device ID <b>*</b></span>
+                <input name="deviceId" placeholder="e.g. DEVICE-01" required>
+              </label>
+            </div>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+            <button class="submit-button" id="submit-button" type="submit">
+              <span>Assess transaction</span><span aria-hidden="true">→</span>
+            </button>
+          </form>
+        </article>
+      </section>
+
+      <section class="panel trend-panel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LAST 7 DAYS</p>
+            <h2>Transaction Activity</h2>
+          </div>
+          <span class="heading-icon" aria-hidden="true">↗</span>
+        </div>
+        <div class="trend-chart-wrap"><canvas id="trend-chart" aria-label="Transactions per day for the last seven days"></canvas></div>
+      </section>
+
+      <section class="result-banner" id="result-banner" aria-live="polite" hidden>
+        <div class="result-symbol" id="result-symbol" aria-hidden="true"></div>
+        <div class="result-content">
+          <p class="eyebrow">ASSESSMENT RESULT</p>
+          <h2 id="result-title"></h2>
+          <p id="result-summary"></p>
+          <ul id="result-reasons"></ul>
+        </div>
+        <div class="result-score"><strong id="result-score"></strong><span>Risk score</span></div>
+      </section>
+
+      <section class="panel transactions-panel">
+        <div class="table-heading">
+          <div>
+            <p class="eyebrow">ACTIVITY</p>
+            <h2>Recent Transactions</h2>
+          </div>
+          <label class="filter-label">
+            <span>Status</span>
+            <select id="status-filter" aria-label="Filter transactions by status">
+              <option value="">All statuses</option>
+              <option value="APPROVED">Approved</option>
+              <option value="REVIEW">Review</option>
+              <option value="BLOCKED">Blocked</option>
+            </select>
+          </label>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Transaction</th>
+                <th>Merchant</th>
+                <th>Amount</th>
+                <th>Risk score</th>
+                <th>Status</th>
+                <th>Date &amp; time</th>
+                <th class="admin-column" id="admin-column" hidden>Action</th>
+              </tr>
+            </thead>
+            <tbody id="transactions-body">
+              <tr><td class="table-state" colspan="7"><span class="spinner"></span> Loading transactions…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <p class="table-footnote" id="page-label">Page 1 of 1</p>
+          <div class="pagination-controls">
+            <button type="button" id="previous-page" disabled>← Previous</button>
+            <span id="page-count">Page 1 of 1</span>
+            <button type="button" id="next-page" disabled>Next →</button>
+          </div>
+        </div>
+      </section>
+      <p class="dashboard-error" id="dashboard-error" role="alert" hidden></p>
+    </main>
+    <footer class="footer">FraudLens <span>·</span> Secure transaction monitoring</footer>
+  </body>
+</html>

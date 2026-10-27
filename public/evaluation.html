@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f7fb">
+    <meta name="description" content="Evaluate FraudLens fraud detection with precision, recall, and a confusion matrix.">
+    <title>Model Evaluation | FraudLens</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/runtime-config.js"></script>
+    <script src="/api.js" defer></script>
+    <script src="/portal.js" defer></script>
+    <script src="/evaluation.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="FraudLens home">
+        <span class="brand-mark">◈</span>
+        <span class="brand-copy"><span class="brand-name">FraudLens</span><span class="brand-tagline">Credit Card Fraud Detection</span></span>
+      </a>
+      <div class="navbar-user">
+        <nav class="main-nav" aria-label="Main navigation">
+          <a href="/">Dashboard</a><a href="/alerts.html">Alerts</a><a href="/rules.html">Rules</a><a href="/customers.html">Customers</a><a class="active" href="/evaluation">Evaluation</a>
+        </nav>
+        <span class="user-identity"><strong id="user-name">Loading…</strong><span id="user-role"></span></span>
+        <button class="logout-button" id="logout-button" type="button">Log out</button>
+      </div>
+    </header>
+    <main class="dashboard evaluation-dashboard">
+      <section class="page-intro evaluation-intro">
+        <div><p class="eyebrow">MODEL PERFORMANCE</p><h1>Model Evaluation</h1><p class="intro-copy">See how risk decisions compare with the generated fraud labels.</p></div>
+        <button class="submit-button run-evaluation" id="run-evaluation" type="button"><span>Run Evaluation</span><span aria-hidden="true">↻</span></button>
+      </section>
+      <p class="dashboard-error" id="evaluation-error" role="alert" hidden></p>
+      <div class="empty-evaluation" id="evaluation-empty" hidden>
+        <span class="empty-icon">◷</span>
+        <h2>No evaluation data yet</h2>
+        <p>Generate labelled sample transactions to calculate model performance.</p>
+        <code>npm run seed -- 1000</code>
+      </div>
+      <section id="evaluation-results" hidden>
+        <article class="panel matrix-panel">
+          <div class="section-heading"><div><p class="eyebrow">CLASSIFICATION RESULTS</p><h2>Confusion Matrix</h2></div><span class="matrix-help">Predicted status compared with ground truth</span></div>
+          <div class="matrix-grid" role="table" aria-label="Confusion matrix">
+            <div class="matrix-corner"></div><div class="matrix-axis">Predicted fraud</div><div class="matrix-axis">Predicted normal</div>
+            <div class="matrix-row-label">Actual fraud</div>
+            <div class="matrix-cell matrix-tp"><strong id="matrix-tp">0</strong><span>True positives</span></div>
+            <div class="matrix-cell matrix-fn"><strong id="matrix-fn">0</strong><span>False negatives</span></div>
+            <div class="matrix-row-label">Actual normal</div>
+            <div class="matrix-cell matrix-fp"><strong id="matrix-fp">0</strong><span>False positives</span></div>
+            <div class="matrix-cell matrix-tn"><strong id="matrix-tn">0</strong><span>True negatives</span></div>
+          </div>
+          <p class="evaluation-sample" id="evaluation-sample"></p>
+        </article>
+        <section class="metric-grid" aria-label="Evaluation metrics">
+          <article class="panel metric-card"><span class="metric-symbol precision-symbol">P</span><p class="eyebrow">PRECISION</p><strong id="metric-precision">0%</strong><h3>How often alerts are right</h3><p>Of all transactions flagged as fraud, this is the share that truly were fraudulent.</p></article>
+          <article class="panel metric-card"><span class="metric-symbol recall-symbol">R</span><p class="eyebrow">RECALL</p><strong id="metric-recall">0%</strong><h3>Fraud cases detected</h3><p>Of all known fraudulent transactions, this is the share the model caught.</p></article>
+          <article class="panel metric-card"><span class="metric-symbol f1-symbol">F1</span><p class="eyebrow">F1 SCORE</p><strong id="metric-f1">0%</strong><h3>Balance of precision and recall</h3><p>A single balanced score that is high when both precision and recall are high.</p></article>
+          <article class="panel metric-card"><span class="metric-symbol accuracy-symbol">A</span><p class="eyebrow">ACCURACY</p><strong id="metric-accuracy">0%</strong><h3>Overall decisions correct</h3><p>The share of all evaluated transactions classified correctly.</p></article>
+        </section>
+      </section>
+    </main>
+    <footer class="footer">FraudLens <span>·</span> Secure transaction monitoring</footer>
+  </body>
+</html>

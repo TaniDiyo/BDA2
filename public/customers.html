@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Inspect customer risk profiles and recent FraudLens transactions.">
+    <title>Customers | FraudLens</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/runtime-config.js"></script>
+    <script src="/api.js" defer></script>
+    <script src="/portal.js" defer></script>
+    <script src="/customers.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar"><a class="brand" href="/" aria-label="FraudLens home"><span class="brand-mark">◈</span><span class="brand-copy"><span class="brand-name">FraudLens</span><span class="brand-tagline">Credit Card Fraud Detection</span></span></a><div class="navbar-user"><nav class="main-nav" aria-label="Main navigation"><a href="/">Dashboard</a><a href="/alerts.html">Alerts</a><a href="/rules.html">Rules</a><a class="active" href="/customers.html">Customers</a><a href="/evaluation">Evaluation</a></nav><span class="user-identity"><strong id="user-name">Loading…</strong><span id="user-role"></span></span><button class="logout-button" id="logout-button">Log out</button></div></header>
+    <main class="dashboard">
+      <section class="page-intro"><div><p class="eyebrow">CUSTOMER INTELLIGENCE</p><h1>Customers</h1><p class="intro-copy">Review customer history, devices, and risk profiles.</p></div></section>
+      <p class="dashboard-error" id="page-error" role="alert" hidden></p>
+      <section class="panel customer-search-panel"><form id="customer-search"><label class="field"><span>Customer ID</span><input name="customerId" required placeholder="Enter a customer ID"></label><button class="submit-button">Search customer</button></form></section>
+      <section id="customer-result" hidden>
+        <div class="customer-profile panel">
+          <div class="section-heading"><div><p class="eyebrow">RISK PROFILE</p><h2 id="profile-customer-id">Customer</h2></div><span id="risk-level" class="badge"></span></div>
+          <div class="profile-stats">
+            <div><span>Total transactions</span><strong id="profile-total">—</strong></div>
+            <div><span>Average amount</span><strong id="profile-average">—</strong></div>
+            <div><span>Maximum amount</span><strong id="profile-maximum">—</strong></div>
+            <div><span>Blocked</span><strong id="profile-blocked">—</strong></div>
+            <div><span>Review</span><strong id="profile-review">—</strong></div>
+            <div><span>Last transaction</span><strong id="profile-last">—</strong></div>
+          </div>
+          <div class="profile-lists"><div><h3>Known devices</h3><div id="known-devices"></div></div><div><h3>Known countries</h3><div id="known-countries"></div></div></div>
+        </div>
+        <section class="panel transactions-panel"><div class="table-heading"><div><p class="eyebrow">CUSTOMER ACTIVITY</p><h2>Last 10 Transactions</h2></div></div><div class="table-scroll"><table><thead><tr><th>Card</th><th>Merchant</th><th>Amount</th><th>Risk</th><th>Status</th><th>Date</th></tr></thead><tbody id="customer-transactions"></tbody></table></div></section>
+      </section>
+    </main>
+    <footer class="footer">FraudLens <span>·</span> Secure transaction monitoring</footer>
+  </body>
+</html>

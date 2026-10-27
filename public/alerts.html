@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Review and resolve FraudLens transaction risk alerts.">
+    <title>Alerts | FraudLens</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/runtime-config.js"></script>
+    <script src="/api.js" defer></script>
+    <script src="/portal.js" defer></script>
+    <script src="/alerts.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar"><a class="brand" href="/" aria-label="FraudLens home"><span class="brand-mark">◈</span><span class="brand-copy"><span class="brand-name">FraudLens</span><span class="brand-tagline">Credit Card Fraud Detection</span></span></a><div class="navbar-user"><nav class="main-nav" aria-label="Main navigation"><a href="/">Dashboard</a><a class="active" href="/alerts.html">Alerts</a><a href="/rules.html">Rules</a><a href="/customers.html">Customers</a><a href="/evaluation">Evaluation</a></nav><span class="user-identity"><strong id="user-name">Loading…</strong><span id="user-role"></span></span><button class="logout-button" id="logout-button">Log out</button></div></header>
+    <main class="dashboard">
+      <section class="page-intro"><div><p class="eyebrow">ANALYST WORKFLOW</p><h1>Alerts</h1><p class="intro-copy">Investigate transactions flagged for elevated risk.</p></div></section>
+      <p class="dashboard-error" id="page-error" role="alert" hidden></p>
+      <section class="panel transactions-panel">
+        <div class="table-heading"><div><p class="eyebrow">REVIEW QUEUE</p><h2>Transaction Alerts</h2></div><label class="filter-label"><span>Alert status</span><select id="alert-filter"><option value="">All statuses</option><option>OPEN</option><option>INVESTIGATING</option><option>CONFIRMED_FRAUD</option><option>FALSE_POSITIVE</option></select></label></div>
+        <div class="table-scroll"><table><thead><tr><th>Customer</th><th>Merchant</th><th>Amount</th><th>Risk</th><th>Status</th><th>Alert status</th><th>Created</th><th>Action</th></tr></thead><tbody id="alerts-body"><tr><td class="table-state" colspan="8">Loading alerts…</td></tr></tbody></table></div>
+        <div class="table-footer"><p class="table-footnote" id="alerts-page-label">Page 1 of 1</p><div class="pagination-controls"><button id="alerts-prev" disabled>← Previous</button><span id="alerts-page">Page 1 of 1</span><button id="alerts-next" disabled>Next →</button></div></div>
+      </section>
+      <section class="panel alert-detail" id="alert-detail" hidden>
+        <div class="section-heading"><div><p class="eyebrow">CASE REVIEW</p><h2 id="detail-title">Alert details</h2></div><button class="logout-button" id="close-detail">Close</button></div>
+        <div id="detail-transaction" class="detail-grid"></div>
+        <div class="detail-columns"><div><h3>Triggered reasons</h3><ul id="detail-reasons"></ul></div><div><h3>Analyst notes</h3><ul id="detail-notes"></ul></div></div>
+        <div class="workflow-actions"><button data-alert-status="INVESTIGATING">Mark Investigating</button><button data-alert-status="CONFIRMED_FRAUD">Confirm Fraud</button><button data-alert-status="FALSE_POSITIVE">False Positive</button><button id="assign-alert">Assign to me</button></div>
+        <form id="note-form" class="note-form"><label class="field"><span>Add a note</span><textarea name="text" rows="3" maxlength="2000" required placeholder="Add investigation details…"></textarea></label><button class="submit-button">Add note</button></form>
+      </section>
+    </main>
+    <footer class="footer">FraudLens <span>·</span> Secure transaction monitoring</footer>
+  </body>
+</html>

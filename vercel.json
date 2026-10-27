@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build:client",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/alerts", "destination": "/alerts.html" },
+    { "source": "/rules", "destination": "/rules.html" },
+    { "source": "/customers", "destination": "/customers.html" },
+    { "source": "/evaluation", "destination": "/evaluation.html" }
+  ]
+}
